@@ -8,8 +8,14 @@ const doctorSchema = new Schema({
     fname :String,
     email: {type : String , required : true},
     spec: String,
-    adress :String ,
+    adress : {
+        street : String ,
+        city : String ,
+        zip : String
+    } ,
     password : String,
+    man : {type:Boolean, required : true },
+    bio : String,
     id_secrt : {
         type: Schema.Types.ObjectId, ref: 'secrt'
     }

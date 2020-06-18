@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-between mb-3 ">
+<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top justify-content-between mb-3 ">
     <span class="navbar-brand h1 mr-5">Espace Patient</span>
     {{#if user}}
     <ul class="navbar-nav mr-auto">
@@ -63,7 +63,7 @@
     <div class="row">
       <div class="col-6">
         <h1 class="mb-3">Bienvenu ..</h1>
-        <h6 class="mb-3">Voici les médecins les plus proches de votre localisation . </h6>
+        <h6 class="mb-3">Voici les médecins les plus proches de votre localisation .  </h6>
         <p> {{geo.city}},{{geo.country}}</p>
       </div>
       <div class="col-6">
@@ -95,12 +95,17 @@
   </div>
   <br>
   <div class="row row-cols-1 row-cols-md-2">
+  {{#if user}}
   {{#each docs}}
   <div class="col mb-4">
     <div class="card mb-3" style="max-width: 540px;">
         <div class="row no-gutters">
-          <div class="col-md-4">
+          <div class="col-md-4" style=" border-right-style: solid;">
+            {{#if this.man}}
+            <img src="/assets/doc2.jpg" style="width: 100%;" class="card-img" alt="...">
+            {{else}}
             <img src="/assets/doc1.jpg" style="width: 100%;" class="card-img" alt="...">
+            {{/if}}         
           </div>
           <div class="col-md-8">
             <div class="card-body">
@@ -110,11 +115,50 @@
             </div>
           </div>
         </div>
+        <div class="card-footer text-muted">
+          <i class="fa fa-map-marker"></i>  {{this.adress.city}}.TN
+          <button class="btn btn-success btn-sm pull-right" >Rendez-vous</button>
+          <a href="/detail/{{this.id}}"><button type="button" class="btn btn-secondary btn-sm pull-right mr-3 sendbio" {{!-- data-toggle="modal" data-target="#exampleModal3" data-id="{{this.bio}}" name="{{this.fname}} {{this.name}}" --}} >
+            Biographie
+          </button></a>
+        </div>
       </div>
   </div>
   {{/each}}
+  {{else}}
+  {{#each docs}}
+  <div class="col mb-4">
+    <div class="card mb-3" style="max-width: 540px;">
+        <div class="row no-gutters">
+          <div class="col-md-4" style=" border-right-style: solid;">
+            {{#if this.man}}
+            <img src="/assets/doc2.jpg" style="width: 100%;" class="card-img" alt="...">
+            {{else}}
+            <img src="/assets/doc1.jpg" style="width: 100%;" class="card-img" alt="...">
+            {{/if}}         
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">Dr :{{this.name}}</h5>
+              <p class="card-text">Spétialité ! {{this.spec}}</p>
+              <p class="card-text"><small class="text-muted">{{this.adress}}</small></p>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer text-muted">
+          <i class="fa fa-map-marker"></i> {{this.adress.city}}.TN
+          <button class="btn btn-success btn-sm pull-right" data-toggle="tooltip" data-placement="top" title="vous devez connecter pour un rendez-vous" disabled >Rendez-vous</button>
+          <button type="button" class="btn btn-secondary btn-sm pull-right mr-3 sendbio"  data-toggle="modal" data-target="#exampleModal3" data-id="{{this.bio}}" name="{{this.fname}} {{this.name}}" >
+            Biographie
+          </button>
+        </div>
+      </div>
+  </div>
+  {{/each}}
+  {{/if}}
 </div>
 </div>
+
 
 
 
@@ -190,3 +234,28 @@
   </div>
 </div>
 
+
+<!-- Modal 3 -->
+<div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title gettitle" id="exampleModalLabel"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="getbio"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+ <script>
+  $('.sendbio').click(function(){
+    $('.getbio').text($(this).data('id'))
+    $('.gettitle').text('Dr : '+$(this).attr('name'))
+  })
+</script>

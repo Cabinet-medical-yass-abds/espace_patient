@@ -11,7 +11,8 @@ const appoiSchema = new Schema({
         type: Schema.Types.ObjectId, ref: 'doctor'
     },
     date : {type : Date , default: Date.now},
-    cancel : { type : Boolean , default : false}
+    cancel : { type : Boolean , default : false},
+    statue : Boolean
     
 }, { timestamps: true });
 

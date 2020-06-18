@@ -12,6 +12,7 @@ const flash = require('connect-flash');
 const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access');
 var geoip = require('geoip-lite');
 const publicIp = require('public-ip');
+const url = require('url');
 const app = express()
 
 
@@ -118,7 +119,26 @@ app.use('/' ,require('./routes/pages'))
 // -----------------------------------------------------
 
 
+/* app.get('/find',(req,res)=>{
+  (async () => {
+    let ipadd = await publicIp.v4();
 
+  const geo = geoip.lookup(ipadd);
+  const errors = req.flash().error || [];
+
+  doctor.findById({_id : "5eea7f17d412453e80c58f3a"},(err,docs)=>{
+    if(err){}
+    else{
+      console.log(docs)
+      res.render('home',{geo, docs,errors , user : req.user}); 
+    }
+  })
+  })();
+  
+}) */
+
+
+/* to delete */
 /* app.get('/getuser',(req,res)=>{
   patient.findOne({email : "abdou@abdou.com"},(err,results)=>{
     if(err){

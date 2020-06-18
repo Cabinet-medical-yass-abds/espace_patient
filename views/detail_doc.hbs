@@ -1,0 +1,84 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top justify-content-between mb-3 ">
+    <span class="navbar-brand h1 mr-5">Espace Patient</span>
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/">Acceuil <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Dossies Medicales</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">rendez-vous</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">.......</a>
+      </li>
+    </ul>
+    
+    <form class="form-inline">
+      <div class="dropdown">
+        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fa fa-user-circle"> : </i> {{user.email}} 
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <div style="text-align: center;"><img style="border-radius : 50%;width:50px;" src="/assets/profile.png" alt=""></div>         
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#"> Profile</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="/auth/logout">Déconnexion</a>
+        </div>
+      </div>  
+    </form>
+</nav>
+
+{{!-- <div class="container">
+    <div class="row">
+        <div class="col-3">
+            <div class="card" style="width: 200px ; height:200px">
+            {{#if doc.man}}
+            <img src="/assets/doc2.jpg" style="width: 100%;" class="card-img" alt="...">
+            {{else}}
+            <img doc="/assets/doc1.jpg" style="width: 100%;" class="card-img" alt="...">
+            {{/if}}   
+            </div>
+        </div>
+    </div>
+</div> --}}
+
+<div class="back">
+<div class="cont">
+    <div class="row justify-content-between">
+        <div class="col-3">
+            <div class="card" style="width: 200px ; height:200px">
+            {{#if doc.man}}
+            <img src="/assets/doc2.jpg" style="width: 100%;" class="card-img" alt="...">
+            {{else}}
+            <img doc="/assets/doc1.jpg" style="width: 100%;" class="card-img" alt="...">
+            {{/if}}   
+            </div>
+        </div>
+        <div class="col-5">
+            <h6>Salut mes patients : je suis </h6>
+            <h3>Dr : <h1> {{doc.fname}} {{doc.name}}</h1></h3>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+    <div class="col-4">
+        <div class="list-group" id="list-tab" role="tablist">
+        <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Présentation</a>
+        <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Biographie</a>
+        <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages">Ma secretère</a>
+        </div>
+    </div>
+    <div class="col-8">
+        <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">...</div>
+        <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">{{doc.bio}}</div>
+        <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">...</div>
+        <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">...</div>
+        </div>
+    </div>
+    </div>
+</div>
+</div>
