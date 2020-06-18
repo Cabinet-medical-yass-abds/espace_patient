@@ -1,60 +1,65 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top justify-content-between mb-3 ">
-    <span class="navbar-brand h1 mr-5">Espace Patient</span>
+  <span class="navbar-brand h1 mr-5">Espace Patient</span>
+  {{#if user}}
+  <ul class="navbar-nav mr-auto">
+    <li class="nav-item active">
+      <a class="nav-link" href=".">Acceuil <span class="sr-only">(current)</span></a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">Dossies Medicales</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">rendez-vous</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">.......</a>
+    </li>
+  </ul>
+  {{else}}
+  <ul class="navbar-nav mr-auto">
+    <li class="nav-item active">
+      <a class="nav-link" href=".">Acceuil <span class="sr-only">(current)</span></a>
+    </li>
+  </ul>
+  {{/if}}
+  <form class="form-inline">
     {{#if user}}
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href=".">Acceuil <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Dossies Medicales</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">rendez-vous</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">.......</a>
-      </li>
-    </ul>
-    {{else}}
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href=".">Acceuil <span class="sr-only">(current)</span></a>
-      </li>
-    </ul>
-    {{/if}}
-    <form class="form-inline">
-      {{#if user}}
-      <div class="dropdown">
-        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <i class="fa fa-user-circle"> : </i> {{user.email}} 
-        </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          {{!-- if photo -> show else -> "down" --}}
-          <div style="text-align: center;"><img style="border-radius : 50%;width:50px;" src="/assets/profile.png" alt=""></div>         
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#"> Profile</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="/auth/logout">Déconnexion</a>
+    <div class="dropdown">
+      <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+        <i class="fa fa-user-circle"> : </i> {{user.email}}
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        {{!-- if photo -> show else -> "down" --}}
+        <div style="text-align: center;"><img style="border-radius : 50%;width:50px;" src="/assets/profile.png" alt="">
         </div>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="#"> Profile</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="/auth/logout">Déconnexion</a>
       </div>
-      {{else}}
-      <button class="btn btn-primary my-2 my-sm-0 "  data-toggle="modal" data-target="#exampleModalCenter" type="button">Connecter</button>
-      <div class="ml-2 mr-2">Ou</div>
-      <button class="btn btn-outline-primary my-2 my-sm-0 "  data-toggle="modal" data-target="#exampleModalCenter2" type="button">Créer un compte</button> 
-      {{/if}}
-    </form>
+    </div>
+    {{else}}
+    <button class="btn btn-primary my-2 my-sm-0 " data-toggle="modal" data-target="#exampleModalCenter"
+      type="button">Connecter</button>
+    <div class="ml-2 mr-2">Ou</div>
+    <button class="btn btn-outline-primary my-2 my-sm-0 " data-toggle="modal" data-target="#exampleModalCenter2"
+      type="button">Créer un compte</button>
+    {{/if}}
+  </form>
 </nav>
 
 
 {{#each errors}}
-<div class="container-fluid" >
-<div class="row justify-content-end">
-  <div class="col-2">
-        <div class="alert alert-danger" style="width: 100%; text-align : center; margin-bottom : -75px" role="alert">{{this}}</div> 
+<div class="container-fluid">
+  <div class="row justify-content-end">
+    <div class="col-2">
+      <div class="alert alert-danger" style="width: 100%; text-align : center; margin-bottom : -75px" role="alert">
+        {{this}}</div>
+    </div>
   </div>
-</div> 
 </div>
-{{/each}}  
+{{/each}}
 
 
 
@@ -63,79 +68,53 @@
     <div class="row">
       <div class="col-6">
         <h1 class="mb-3">Bienvenu ..</h1>
-        <h6 class="mb-3">Voici les médecins les plus proches de votre localisation .  </h6>
+        <h6 class="mb-3">Voici les médecins les plus proches de votre localisation . </h6>
         <p> {{geo.city}},{{geo.country}}</p>
       </div>
       <div class="col-6">
-        <form>
+        <form method="post" action="/">
           <div class="form-group">
             <h2>Recherche</h2>
             <div class="input-group mb-2">
               <div class="input-group-prepend">
                 <div class="input-group-text"><i class="fa fa-search"></i></div>
               </div>
-              <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="chercher un médecin par nom ou par spétialité">
+              <input type="text" class="form-control" id="inlineFormInputGroup"
+                placeholder="chercher un médecin par nom" name="doctorname">
             </div>
           </div>
-          <div class="custom-control custom-radio custom-control-inline">
-            <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
+          {{!-- <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input" value="doctor" checked="checked">
             <label class="custom-control-label" for="customRadioInline1">Nom docteur</label>
+          </div> --}}
+
+          <div class="form-group">
+            <label for="">Ou bien chercher avec specialité </label>
+            <select class="custom-select" name="speciality" id="">
+              <option value="0" selected>selectionner spécialité</option>
+              <option value="dermatopathology">Dermatopathology</option>
+              <option value="opticien">Opticien</option>
+            </select>
           </div>
-          <div class="custom-control custom-radio custom-control-inline">
-            <input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input">
-            <label class="custom-control-label" for="customRadioInline2">Spécialité</label>
-          </div>
-          <div class="custom-control custom-radio custom-control-inline">
-            <button type="submit" class="btn btn-success pull-right  ml-5 mr-0">Recherche</button>
-          </div>
-          <br>  
+          <button type="submit" class="btn btn-success pull-right  ml-5 mr-0">Recherche</button>
+          <br>
         </form>
       </div>
     </div>
   </div>
   <br>
   <div class="row row-cols-1 row-cols-md-2">
-  {{#if user}}
-  {{#each docs}}
-  <div class="col mb-4">
-    <div class="card mb-3" style="max-width: 540px;">
+    {{#if user}}
+    {{#each docs}}
+    <div class="col mb-4">
+      <div class="card mb-3" style="max-width: 540px;">
         <div class="row no-gutters">
           <div class="col-md-4" style=" border-right-style: solid;">
             {{#if this.man}}
             <img src="/assets/doc2.jpg" style="width: 100%;" class="card-img" alt="...">
             {{else}}
             <img src="/assets/doc1.jpg" style="width: 100%;" class="card-img" alt="...">
-            {{/if}}         
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">Dr :{{this.name}}</h5>
-              <p class="card-text">Spétialité ! {{this.spec}}</p>
-              <p class="card-text"><small class="text-muted">{{this.adress}}</small></p>
-            </div>
-          </div>
-        </div>
-        <div class="card-footer text-muted">
-          <i class="fa fa-map-marker"></i>  {{this.adress.city}}.TN
-          <button class="btn btn-success btn-sm pull-right" >Rendez-vous</button>
-          <a href="/detail/{{this.id}}"><button type="button" class="btn btn-secondary btn-sm pull-right mr-3 sendbio" {{!-- data-toggle="modal" data-target="#exampleModal3" data-id="{{this.bio}}" name="{{this.fname}} {{this.name}}" --}} >
-            Biographie
-          </button></a>
-        </div>
-      </div>
-  </div>
-  {{/each}}
-  {{else}}
-  {{#each docs}}
-  <div class="col mb-4">
-    <div class="card mb-3" style="max-width: 540px;">
-        <div class="row no-gutters">
-          <div class="col-md-4" style=" border-right-style: solid;">
-            {{#if this.man}}
-            <img src="/assets/doc2.jpg" style="width: 100%;" class="card-img" alt="...">
-            {{else}}
-            <img src="/assets/doc1.jpg" style="width: 100%;" class="card-img" alt="...">
-            {{/if}}         
+            {{/if}}
           </div>
           <div class="col-md-8">
             <div class="card-body">
@@ -147,23 +126,57 @@
         </div>
         <div class="card-footer text-muted">
           <i class="fa fa-map-marker"></i> {{this.adress.city}}.TN
-          <button class="btn btn-success btn-sm pull-right" data-toggle="tooltip" data-placement="top" title="vous devez connecter pour un rendez-vous" disabled >Rendez-vous</button>
-          <button type="button" class="btn btn-secondary btn-sm pull-right mr-3 sendbio"  data-toggle="modal" data-target="#exampleModal3" data-id="{{this.bio}}" name="{{this.fname}} {{this.name}}" >
+          <button class="btn btn-success btn-sm pull-right">Rendez-vous</button>
+          <a href="/detail/{{this.id}}"><button type="button" class="btn btn-secondary btn-sm pull-right mr-3 sendbio"
+              {{!-- data-toggle="modal" data-target="#exampleModal3" data-id="{{this.bio}}" name="{{this.fname}} {{this.name}}" --}}>
+              Biographie
+            </button></a>
+        </div>
+      </div>
+    </div>
+    {{/each}}
+    {{else}}
+    {{#each docs}}
+    <div class="col mb-4">
+      <div class="card mb-3" style="max-width: 540px;">
+        <div class="row no-gutters">
+          <div class="col-md-4" style=" border-right-style: solid;">
+            {{#if this.man}}
+            <img src="/assets/doc2.jpg" style="width: 100%;" class="card-img" alt="...">
+            {{else}}
+            <img src="/assets/doc1.jpg" style="width: 100%;" class="card-img" alt="...">
+            {{/if}}
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">Dr :{{this.name}}</h5>
+              <p class="card-text">Spétialité ! {{this.spec}}</p>
+              <p class="card-text"><small class="text-muted">{{this.adress}}</small></p>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer text-muted">
+          <i class="fa fa-map-marker"></i> {{this.adress.city}}.TN
+          <button class="btn btn-success btn-sm pull-right" data-toggle="tooltip" data-placement="top"
+            title="vous devez connecter pour un rendez-vous" disabled>Rendez-vous</button>
+          <button type="button" class="btn btn-secondary btn-sm pull-right mr-3 sendbio" data-toggle="modal"
+            data-target="#exampleModal3" data-id="{{this.bio}}" name="{{this.fname}} {{this.name}}">
             Biographie
           </button>
         </div>
       </div>
+    </div>
+    {{/each}}
+    {{/if}}
   </div>
-  {{/each}}
-  {{/if}}
-</div>
 </div>
 
 
 
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -174,15 +187,17 @@
       </div>
       <div class="modal-body">
         <form method="POST" action="/auth/login">
-        <div class="form-group">
+          <div class="form-group">
             <label for="exampleInputEmail3">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail3" aria-describedby="emailHelp" placeholder="Enter email" name="email">
+            <input type="email" class="form-control" id="exampleInputEmail3" aria-describedby="emailHelp"
+              placeholder="Enter email" name="email">
             <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-        </div>
-        <div class="form-group">
+          </div>
+          <div class="form-group">
             <label for="exampleInputPassword3">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword3" placeholder="Password" name="password">
-        </div>
+            <input type="password" class="form-control" id="exampleInputPassword3" placeholder="Password"
+              name="password">
+          </div>
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn btn-primary">Connecter</button>
@@ -193,7 +208,8 @@
 </div>
 
 <!-- Modal 2-->
-<div class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -204,27 +220,27 @@
       </div>
       <div class="modal-body">
         <form method="POST" action="/auth/signup">
-        <div class="form-group">
-          <label for="formGroupExampleInput1">Nom </label>
-          <input type="text" class="form-control" id="formGroupExampleInput1" placeholder="" name="nom">
-        </div>
-        <div class="form-group">
-          <label for="formGroupExampleInput2">Prénom</label>
-          <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="" name="prenom">
-        </div>
-        <hr>
-        <div class="form-group">
-          <label for="exampleInputEmail1">Email</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email">
-        </div>
-        <div class="form-group">
-          <label for="exampleInputPassword1">Mot de passe</label>
-          <input type="password" class="form-control" id="exampleInputPassword1" name="password">
-        </div>
-        <div class="form-group">
-          <label for="exampleInputPassword2">Confirmation mot de passe</label>
-          <input type="password" class="form-control" id="exampleInputPassword2" name="cpass">
-        </div>
+          <div class="form-group">
+            <label for="formGroupExampleInput1">Nom </label>
+            <input type="text" class="form-control" id="formGroupExampleInput1" placeholder="" name="nom">
+          </div>
+          <div class="form-group">
+            <label for="formGroupExampleInput2">Prénom</label>
+            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="" name="prenom">
+          </div>
+          <hr>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Email</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Mot de passe</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" name="password">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword2">Confirmation mot de passe</label>
+            <input type="password" class="form-control" id="exampleInputPassword2" name="cpass">
+          </div>
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn btn-primary">Créez votre compte</button>
@@ -236,7 +252,8 @@
 
 
 <!-- Modal 3 -->
-<div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -253,9 +270,9 @@
 </div>
 
 
- <script>
-  $('.sendbio').click(function(){
+<script>
+  $('.sendbio').click(function () {
     $('.getbio').text($(this).data('id'))
-    $('.gettitle').text('Dr : '+$(this).attr('name'))
+    $('.gettitle').text('Dr : ' + $(this).attr('name'))
   })
 </script>
