@@ -102,6 +102,7 @@ app.get('/', function(req, res) {
     })();
 });
 
+
 // Pass 'req.user' as 'user' to hbs templates
 // Just a custom middleware
 app.use((req, res, next) => {
@@ -120,32 +121,21 @@ app.use('/', require('./routes/pages'))
 app.post('/', (req, res) => {
     (async() => {
         let ipadd = await publicIp.v4();
-
         const geo = geoip.lookup(ipadd);
         const errors = req.flash().error || [];
         console.log(req.body);
         if (req.body.speciality == '0') {
             var colName = req.body.doctorname;
             doctor.find({ name: { $regex: '.*' + colName + '.*' } }, (err, docs) => {
-                if (err) {} else {
-                    console.log(docs)
+                if (err) {} else { 
                     res.render('home', { geo, docs, errors, user: req.user });
-                    // res.redirect(url.format({
-                    //     pathname: '/',
-                    //     query: { name: req.query.doctorname }
-                    // }))
                 }
             })
         } else {
             colName = req.body.speciality;
             doctor.find({ spec: { $regex: '.*' + colName + '.*' } }, (err, docs) => {
-                if (err) {} else {
-                    // console.log(docs)
-                    res.render('home', { geo, docs, errors, user: req.user });
-                    // res.redirect(url.format({
-                    //     pathname: '/',
-                    //     query: { name: req.query.doctorname }
-                    // }))
+                if (err) {} else {    
+                 res.render('home', { geo, docs, errors, user: req.user });    
                 }
             })
 
@@ -155,36 +145,6 @@ app.post('/', (req, res) => {
     })();
 })
 
-
-/* to delete */
-/* app.get('/getuser',(req,res)=>{
-  patient.findOne({email : "abdou@abdou.com"},(err,results)=>{
-    if(err){
-      console.log(err)
-    }
-    else{
-      var ap = new appoi({
-        id_patient : results.id ,
-        id_doctor : "5eea7f17d412453e80c58f3a" ,
-        date : "",
-        cancel : true
-      }).save()
-      res.status(200).json(ap)
-    }
-  })
-})
-
-app.get('/testdb',(req,res)=>{
-  appoi.find({}).populate('id_patient').populate('id_doctor').exec((err,results)=>{
-    if(err){console.log(err)}
-    else{
-      results.forEach((key,value)=>{
-        console.log(key.id_doctor)
-      })
-      res.status(200).json(results) 
-    }
-  })
-}) */
 
 
 
