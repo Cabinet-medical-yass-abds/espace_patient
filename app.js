@@ -128,7 +128,7 @@ app.post('/', (req, res) => {
             var colName = req.body.doctorname;
             doctor.find({ name: { $regex: '.*' + colName + '.*' } }, (err, docs) => {
                 if (err) {} else {
-                    // console.log(docs)
+                    console.log(docs)
                     res.render('home', { geo, docs, errors, user: req.user });
                     // res.redirect(url.format({
                     //     pathname: '/',
