@@ -5,14 +5,14 @@
     <li class="nav-item active">
       <a class="nav-link" href="/">Acceuil <span class="sr-only">(current)</span></a>
     </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">Dossies Medicales</a>
+    <li class="nav-item ">
+      <a class="nav-link" href="/mesRV">Mes rendez vous</a>
     </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">rendez-vous</a>
+    <li class="nav-item ">
+      <a class="nav-link" href="/dossier">Mes dossiers</a>
     </li>
-    <li class="nav-item">
-      <a class="nav-link" href="/reclamation">reclamation</a>
+    <li class="nav-item ">
+      <a class="nav-link" href="/mesREC">Mes réclamations</a>
     </li>
   </ul>
   {{else}}
@@ -27,15 +27,17 @@
     <div class="dropdown">
       <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
         aria-haspopup="true" aria-expanded="false">
-        <i class="fa fa-user-circle"> : </i> {{user.email}}
+        <i class="fa fa-user-circle"> : </i> {{user.prenom}} {{user.nom}}
       </button>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         <div style="text-align: center;"><img style="border-radius : 50%;width:50px;" src="/assets/profile.png" alt="">
         </div>
         <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="/profile"> Profile</a>
+        <a class="dropdown-item" type="button" data-toggle="modal" data-target="#exampleModal4"><i class="fa fa-cog"></i>  Profile</a>
         <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="/auth/logout">Déconnexion</a>
+        <a class="dropdown-item" type="button" data-toggle="modal" data-target="#exampleModal3"><i class="fa fa-exclamation"></i>  Réclamation</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="/auth/logout"><i class="fa fa-sign-out"></i>  Déconnexion</a>
       </div>
     </div>
     {{else}}
@@ -52,7 +54,9 @@
 
 
 
-<!-- Modal -->
+
+
+<!-- login -->
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -85,7 +89,7 @@
   </div>
 </div>
 
-<!-- Modal 2-->
+<!-- register 2-->
 <div class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -124,6 +128,67 @@
         <button type="submit" class="btn btn-primary">Créez votre compte</button>
       </div>
       </form>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- reclamation 3 -->
+<div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Passez votre réclamation</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <div class="row justify-content-center">
+              <div class="col">
+                  <form method="post" action="/postClaim/{{user.id}}">
+                  <div class="form-group">
+                      <label for="formGroupExampleInput">Objectif </label>
+                      <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Titre de réclamation" name="objectif">
+                  </div>
+                  <div class="form-group">
+                      <label for="exampleFormControlTextarea1">Desciption</label>
+                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" name="description"></textarea>
+                  </div>
+                  <button type="submit" class="btn btn-success pull-right">Passer votre réclamation</button>
+                  </form>
+              </div>
+          </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- profile 4-->
+<div class="modal fade" id="exampleModal4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modifiez vos informations</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+        <div class="form-row">
+          <div class="col">
+            <input type="text" class="form-control" placeholder="" value="{{user.nom}}">
+          </div>
+          <div class="col">
+            <input type="text" class="form-control" placeholder="" value="{{user.prenom}}">
+          </div>
+        </div>
+      </form>
+      </div>
     </div>
   </div>
 </div>

@@ -8,7 +8,8 @@ const claimSchema = new Schema({
         type: Schema.Types.ObjectId, ref: 'User'
     },
     objectif : String ,
-    description : String
+    description : String,
+    answer: String
 }, { timestamps: true });
 
 

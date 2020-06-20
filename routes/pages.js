@@ -12,13 +12,16 @@ router.get('/detail/:id',(req,res)=>{
     })
 })
 
-router.get('/profile',(req,res)=>{
-    res.render('profile.hbs',{})
+router.get('/mesRV',(req,res)=>{
+    res.render('mes_rendvous.hbs',{})
+})
+router.get('/mesREC',(req,res)=>{
+    res.render('mes_reclamation.hbs',{})
+})
+router.get('/dossier',(req,res)=>{
+    res.render('mes_dossiers.hbs',{})
 })
 
-router.get('/reclamation',(req,res)=>{
-    res.render('reclamationForm.hbs',{})
-})
 
 router.post('/postClaim/:id',(req,res)=>{
     var claim = new Claim({
