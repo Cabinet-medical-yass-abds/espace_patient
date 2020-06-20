@@ -12,7 +12,7 @@ const appoiSchema = new Schema({
     },
     date : {type : Date , default: Date.now},
     cancel : { type : Boolean , default : false},
-    statue : Boolean
+    statue : { type : Boolean , default : false}
     
 }, { timestamps: true });
 

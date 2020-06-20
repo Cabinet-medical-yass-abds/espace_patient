@@ -1,66 +1,5 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top justify-content-between mb-3 ">
-  <span class="navbar-brand h1 mr-5">Espace Patient</span>
-  {{#if user}}
-  <ul class="navbar-nav mr-auto">
-    <li class="nav-item active">
-      <a class="nav-link" href=".">Acceuil <span class="sr-only">(current)</span></a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">Dossies Medicales</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">rendez-vous</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">.......</a>
-    </li>
-  </ul>
-  {{else}}
-  <ul class="navbar-nav mr-auto">
-    <li class="nav-item active">
-      <a class="nav-link" href=".">Acceuil <span class="sr-only">(current)</span></a>
-    </li>
-  </ul>
-  {{/if}}
-  <form class="form-inline">
-    {{#if user}}
-    <div class="dropdown">
-      <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-        aria-haspopup="true" aria-expanded="false">
-        <i class="fa fa-user-circle"> : </i> {{user.email}}
-      </button>
-      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        {{!-- if photo -> show else -> "down" --}}
-        <div style="text-align: center;"><img style="border-radius : 50%;width:50px;" src="/assets/profile.png" alt="">
-        </div>
-        <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="#"> Profile</a>
-        <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="/auth/logout">Déconnexion</a>
-      </div>
-    </div>
-    {{else}}
-    <button class="btn btn-primary my-2 my-sm-0 " data-toggle="modal" data-target="#exampleModalCenter"
-      type="button">Connecter</button>
-    <div class="ml-2 mr-2">Ou</div>
-    <button class="btn btn-outline-primary my-2 my-sm-0 " data-toggle="modal" data-target="#exampleModalCenter2"
-      type="button">Créer un compte</button>
-    {{/if}}
-  </form>
-</nav>
-
-
-{{#each errors}}
-<div class="container-fluid">
-  <div class="row justify-content-end">
-    <div class="col-2">
-      <div class="alert alert-danger" style="width: 100%; text-align : center; margin-bottom : -75px" role="alert">
-        {{this}}</div>
-    </div>
-  </div>
-</div>
-{{/each}}
-
+{{> navbar}}
+{{> flashMsg}}
 
 
 <div class="container">
@@ -83,11 +22,6 @@
                 placeholder="chercher un médecin par nom" name="doctorname">
             </div>
           </div>
-          {{!-- <div class="custom-control custom-radio custom-control-inline">
-            <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input" value="doctor" checked="checked">
-            <label class="custom-control-label" for="customRadioInline1">Nom docteur</label>
-          </div> --}}
-
           <div class="form-group">
             <label for="">Ou bien chercher avec specialité </label>
             <select class="custom-select" name="speciality" id="">
@@ -96,13 +30,14 @@
               <option value="opticien">Opticien</option>
             </select>
           </div>
-          <button type="submit" class="btn btn-success pull-right  ml-5 mr-0">Recherche</button>
+          <button type="submit" class="btn btn-dark pull-right  ml-5 mr-0">Recherche</button>
           <br>
         </form>
       </div>
     </div>
   </div>
   <br>
+  {{#if docs}}
   <div class="row row-cols-1 row-cols-md-2">
     {{#if user}}
     {{#each docs}}
@@ -124,13 +59,18 @@
             </div>
           </div>
         </div>
-        <div class="card-footer text-muted">
-          <i class="fa fa-map-marker"></i> {{this.adress.city}}.TN
-          <button class="btn btn-success btn-sm pull-right">Rendez-vous</button>
-          <a href="/detail/{{this.id}}"><button type="button" class="btn btn-secondary btn-sm pull-right mr-3 sendbio"
-              {{!-- data-toggle="modal" data-target="#exampleModal3" data-id="{{this.bio}}" name="{{this.fname}} {{this.name}}" --}}>
+        <div class="card-footer container text-muted">
+          <div class="row">
+            <div class="col"><i class="fa fa-map-marker"></i> {{this.adress.city}}.TN</div>
+          <div class="col">
+            <form action="/rendezVous/{{this.id}}" method="post">
+            <button type="submit"  class="btn btn-success btn-sm pull-right">Rendez-vous</button>
+          </form>
+          <a href="/detail/{{this.id}}"><button type="button" class="btn btn-secondary btn-sm pull-right mr-3 sendbio">
               Biographie
             </button></a>
+          </div>
+          </div>
         </div>
       </div>
     </div>
@@ -159,120 +99,35 @@
           <i class="fa fa-map-marker"></i> {{this.adress.city}}.TN
           <button class="btn btn-success btn-sm pull-right" data-toggle="tooltip" data-placement="top"
             title="vous devez connecter pour un rendez-vous" disabled>Rendez-vous</button>
-          <button type="button" class="btn btn-secondary btn-sm pull-right mr-3 sendbio" data-toggle="modal"
-            data-target="#exampleModal3" data-id="{{this.bio}}" name="{{this.fname}} {{this.name}}">
-            Biographie
-          </button>
+          <a href="/detail/{{this.id}}"><button type="button" class="btn btn-secondary btn-sm pull-right mr-3 sendbio">
+              Biographie
+          </button></a>
         </div>
       </div>
     </div>
     {{/each}}
     {{/if}}
   </div>
-</div>
-
-
-
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-  aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Connecter</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form method="POST" action="/auth/login">
-          <div class="form-group">
-            <label for="exampleInputEmail3">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail3" aria-describedby="emailHelp"
-              placeholder="Enter email" name="email">
-            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-          </div>
-          <div class="form-group">
-            <label for="exampleInputPassword3">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword3" placeholder="Password"
-              name="password">
-          </div>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">Connecter</button>
-      </div>
-      </form>
-    </div>
-  </div>
-</div>
-
-<!-- Modal 2-->
-<div class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-  aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Créer un compte</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form method="POST" action="/auth/signup">
-          <div class="form-group">
-            <label for="formGroupExampleInput1">Nom </label>
-            <input type="text" class="form-control" id="formGroupExampleInput1" placeholder="" name="nom">
-          </div>
-          <div class="form-group">
-            <label for="formGroupExampleInput2">Prénom</label>
-            <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="" name="prenom">
-          </div>
-          <hr>
-          <div class="form-group">
-            <label for="exampleInputEmail1">Email</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email">
-          </div>
-          <div class="form-group">
-            <label for="exampleInputPassword1">Mot de passe</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" name="password">
-          </div>
-          <div class="form-group">
-            <label for="exampleInputPassword2">Confirmation mot de passe</label>
-            <input type="password" class="form-control" id="exampleInputPassword2" name="cpass">
-          </div>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">Créez votre compte</button>
-      </div>
-      </form>
-    </div>
-  </div>
-</div>
-
-
-<!-- Modal 3 -->
-<div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title gettitle" id="exampleModalLabel"></h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p class="getbio"></p>
+  {{else}}
+    <div class="row justify-content-center">
+      <div class="col">
+      <div class="alert alert-danger" role="alert">
+      <h4 class="alert-heading">Docteur introuvable ..</h4>
+      <p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.</p>
+      <hr>
+      <div style="text-align: end;">
+        <a href="/">
+          <button type="button" class="btn btn-secondary"><i class="fa fa-retweet"></i> Actualiser</button>
+        </a>
+        {{#if user}}
+        <a href="/reclamation">
+          <button type="button" class="btn btn-warning"><i class="fa fa-exclamation-triangle"></i> Passer une réclamation</button>
+        </a>
+        {{/if}}
       </div>
     </div>
-  </div>
+    </div>
+    </div>
+    {{/if}}
 </div>
 
-
-<script>
-  $('.sendbio').click(function () {
-    $('.getbio').text($(this).data('id'))
-    $('.gettitle').text('Dr : ' + $(this).attr('name'))
-  })
-</script>

@@ -12,7 +12,7 @@ const flash = require('connect-flash');
 const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access');
 var geoip = require('geoip-lite');
 const publicIp = require('public-ip');
-const url = require('url');
+
 const app = express()
 
 
@@ -36,6 +36,7 @@ app.engine('hbs', hbs({
     extname: 'hbs',
     defaultView: 'main',
     layoutsDir: __dirname + '/views/layouts',
+    partialsDir : path.join(__dirname,'views/partials'),
     hbs: allowInsecurePrototypeAccess(Handlebars)
 }));
 app.set('view engine', 'hbs');
@@ -88,19 +89,6 @@ const consultation = require('./models/consultation');
 const patient = require('./models/user');
 const { request } = require('http');
 
-//main route 
-app.get('/', function(req, res) {
-    (async() => {
-        let ipadd = await publicIp.v4();
-        const geo = geoip.lookup(ipadd);
-        const errors = req.flash().error || [];
-        doctor.find({}, (err, docs) => {
-            if (err) { console.log(err) } else {
-                res.render('home', { geo, docs, errors, user: req.user });
-            }
-        })
-    })();
-});
 
 
 // Pass 'req.user' as 'user' to hbs templates
@@ -112,36 +100,50 @@ app.use((req, res, next) => {
 })
 
 
+
+
+
 // Routes ----------------------------------------------
 app.use('/auth', require('./routes/auth'))
 app.use('/', require('./routes/pages'))
     // -----------------------------------------------------
+
+//main route 
+app.get('/', function(req, res) {
+    (async() => {
+        let ipadd = await publicIp.v4();
+        const geo = geoip.lookup(ipadd);
+        const errors = req.flash() || [];
+        doctor.find({}, (err, docs) => {
+            if (err) { console.log(err) } else {
+                res.render('home', { succes : errors.succes ,geo, docs, errors : errors.error, user: req.user });
+            }
+        })
+    })();
+});
 
 
 app.post('/', (req, res) => {
     (async() => {
         let ipadd = await publicIp.v4();
         const geo = geoip.lookup(ipadd);
-        const errors = req.flash().error || [];
-        console.log(req.body);
+        const errors = req.flash()|| [];
         if (req.body.speciality == '0') {
             var colName = req.body.doctorname;
             doctor.find({ name: { $regex: '.*' + colName + '.*' } }, (err, docs) => {
                 if (err) {} else { 
-                    res.render('home', { geo, docs, errors, user: req.user });
+                    res.render('home', {succes : errors.succes, geo, docs, errors : errors.error, user: req.user });
                 }
             })
         } else {
             colName = req.body.speciality;
             doctor.find({ spec: { $regex: '.*' + colName + '.*' } }, (err, docs) => {
                 if (err) {} else {    
-                 res.render('home', { geo, docs, errors, user: req.user });    
+                 res.render('home', { succes : errors.succes, geo, docs, errors : errors.error, user: req.user });    
                 }
             })
 
         }
-
-
     })();
 })
 

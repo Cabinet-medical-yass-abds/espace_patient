@@ -1,0 +1,18 @@
+{{> navbar}}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <form method="post" action="/postClaim/{{user.id}}">
+            <div class="form-group">
+                <label for="formGroupExampleInput">Objectif </label>
+                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Titre de réclamation" name="objectif">
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlTextarea1">Desciption</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" name="description"></textarea>
+            </div>
+            <button type="submit" class="btn btn-success pull-right">Passer votre réclamation</button>
+            </form>
+        </div>
+    </div>
+</div>
