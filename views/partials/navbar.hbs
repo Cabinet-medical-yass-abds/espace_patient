@@ -31,7 +31,11 @@
         <i class="fa fa-user-circle"> : </i> {{user.prenom}} {{user.nom}}
       </button>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        {{#if user.photo}}
         <div style="text-align: center;"><img style="border-radius : 50%;width:50px;" src="/uploads/{{user.photo}}" alt="">
+        {{else}}
+        <div style="text-align: center;"><img style="border-radius : 50%;width:50px;" src="/assets/profile.png" alt="">
+        {{/if}}
         </div>
         <div class="dropdown-divider"></div>
         <a class="dropdown-item" type="button" data-toggle="modal" data-target="#exampleModal4"><i class="fa fa-cog"></i>  Profile</a>
@@ -146,11 +150,6 @@
           </div>
           <input type="text" class="form-control" placeholder="+216 .. " aria-label="Username" aria-describedby="basic-addon1" name="numtel"> 
         </div>
-        <hr>
-            <div class="form-group">
-            <label for="exampleFormControlFile1">Photo de profile</label>
-            <input type="file" name="myfile" class="form-control-file" id="exampleFormControlFile1">
-          </div>
         </div>
       <div class="modal-footer">
         <button type="submit" class="btn btn-primary">Créez votre compte</button>
@@ -241,7 +240,7 @@
           </div>
           <hr>
           <div class="form-group">
-            <label for="exampleFormControlFile1">Example file input</label>
+            <label for="exampleFormControlFile1">Photo de profile</label>
             <input type="file" name="myfile" class="form-control-file" id="exampleFormControlFile1">
           </div>
         <button type="submit" class="btn btn-secondary pull-right mt-3">Modifier</button>
