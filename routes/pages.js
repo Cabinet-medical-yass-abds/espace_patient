@@ -58,7 +58,7 @@ router.post('/makeconsultation/:id',(req,res)=>{
                 files : []
             }).save((err)=>{})
         }
-        res.redirect('/')
+        res.redirect('/acceuil')
     })
 })
 
@@ -73,14 +73,14 @@ router.post('/rendezVous/:id',(req,res)=>{
       
        if (data != null){
            req.flash('error','rendez vous déja approuvé')
-           res.redirect(301,'/')
+           res.redirect('/acceuil')
        }else{
            appoi.save((err)=>{
                if(err){
                    console.log(err)
                }else{
                    req.flash('succes','Demande de rendez vous envoyée  voir Mes rendez-vous')
-                   res.redirect(301,'/')
+                   res.redirect('/acceuil')
                }
            })
        }
@@ -101,7 +101,7 @@ router.post('/postClaim/:id',(req,res)=>{
             console.log(err)
         }else{
             req.flash('succes','Réclamation envoyée avec succée ')
-            res.redirect(301,'/')
+            res.redirect('/acceuil')
         }
     })
 })
@@ -164,7 +164,7 @@ router.post('/updateUser/:id',upload.single('myfile'),(req,res)=>{
 		if(err){console.log(err)}
 		else{
 			req.flash('succes','Informations modifiées aves succés')
-			res.redirect(301,'/')
+			res.redirect('/acceuil')
 		}
 	})
 })

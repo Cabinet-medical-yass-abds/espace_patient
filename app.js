@@ -107,9 +107,16 @@ const doctor = require('./models/doctor');
 const user = require('./models/user');
 
 app.get('/', function(req, res) {
+
+  res.render('landing');
+})
+app.get('/acceuil', function(req, res) {
     (async() => {
         let ipadd = await publicIp.v4();
         const geo = geoip.lookup(ipadd);
+        let test = "http://ip-api.com/json/";
+        console.log('ipadd:',ipadd);
+        console.log('geo:',geo);
         const errors = req.flash() || [];
         doctor.find({}, (err, docs) => {
             if (err) { console.log(err) } 
@@ -121,7 +128,7 @@ app.get('/', function(req, res) {
 });
 
 
-app.post('/', (req, res) => {
+app.post('/acceuil', (req, res) => {
     (async() => {
         let ipadd = await publicIp.v4();
         const geo = geoip.lookup(ipadd);

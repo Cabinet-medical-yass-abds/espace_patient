@@ -11,7 +11,7 @@
         <p> {{geo.city}},{{geo.country}}</p>
       </div>
       <div class="col-6">
-        <form method="post" action="/">
+        <form method="post" action="/acceuil">
           <div class="form-group">
             <h2>Recherche</h2>
             <div class="input-group mb-2">
@@ -123,10 +123,10 @@
       <div class="col">
       <div class="alert alert-danger" role="alert">
       <h4 class="alert-heading">Docteur introuvable ..</h4>
-      <p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.</p>
+      <p>Vous n'avez pas choisi un filtre de recherche ou bien le docteur est introuvable, ressayer à nouveau votre recherche.</p>
       <hr>
       <div style="text-align: end;">
-        <a href="/">
+        <a href="/acceuil">
           <button type="button" class="btn btn-secondary"><i class="fa fa-retweet"></i> Actualiser</button>
         </a>
         {{#if user}}

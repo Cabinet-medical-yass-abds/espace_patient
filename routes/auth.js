@@ -8,10 +8,10 @@ const upload = require('../config/multer_cofig')
 
 //  Signup ====================================================================
 router.post('/signup', passport.authenticate('local-signup',  {
-	failureRedirect : '/',
+	failureRedirect : '/acceuil',
 	failureFlash : true // allow flash messages
 }), function(req, res, next)  {
-	res.redirect('/')
+	res.redirect('/acceuil')
 });
 
 /* router.post('/signup',upload.single('myfile'),(req,res)=>{
@@ -60,18 +60,18 @@ router.post('/signup', passport.authenticate('local-signup',  {
 // Login ====================================================================
 
 router.post('/login', passport.authenticate('local-login' , {
-	failureRedirect : '/',
-	successRedirect:'/',
+	failureRedirect : '/acceuil',
+	successRedirect:'/acceuil',
 	failureFlash : true // allow flash messages
 }), function(req, res, next)  {
-  res.redirect('/')
+  res.redirect('/acceuil')
 });
 
 
 // LOGOUT ==============================
 router.get('/logout', function(req, res, next) {
 	req.logout();
-	res.redirect('/');
+	res.redirect('/acceuil');
 });
 
 
