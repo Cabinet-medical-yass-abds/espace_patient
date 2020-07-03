@@ -4,14 +4,15 @@ const Schema = mongoose.Schema;
 
 
 const secretSchema = new Schema({
-    name: String,
-    fname: String,
+    nom: String,
+    prenom: String,
     email: { type: String, required: true },
     password: String,
     id_doctor: {
         type: Schema.Types.ObjectId,
         ref: 'doctor'
-    }
+    },
+    numtel :String
 }, { timestamps: true });
 
 

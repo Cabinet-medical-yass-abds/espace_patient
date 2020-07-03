@@ -3,6 +3,10 @@ const LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 // Models
 const User = require('../models/user');
+var multer  = require('multer')
+const upload = require('../config/multer_cofig')
+
+
 
 
 
@@ -49,9 +53,8 @@ module.exports = function(passport) {
         // by default, local strategy uses username and password, we will override with email
         usernameField : 'email',
         passwordField : 'password',
-        passReqToCallback : true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
-    }, function(req, email, password, done) {
-
+        passReqToCallback : true , // allows us to pass in the req from our route (lets us check if a user is logged in or not)
+    },function(req, email, password, done) {
         // if the user is already logged in:
         if (req.user) {
             // just pass back his data
@@ -76,8 +79,14 @@ module.exports = function(passport) {
                 nom : req.body.nom,
                 prenom : req.body.prenom ,
                 email: email,
-                // hash/encrypt password before storing it in the database
                 password: User.generateHash(password),
+                adress : {
+                    street : req.body.street,
+                    city : req.body.city,
+                    zip : req.body.zip
+                },
+                numtel : req.body.numtel,
+                /* photo : req.file.filename */
             }).save(function(err, savedUser) {
                 if (err) {
                     return done(err, false)

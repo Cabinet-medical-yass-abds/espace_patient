@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt-nodejs');
+const bcrypt = require('bcryptjs');
 const Schema = mongoose.Schema;
 
 
@@ -9,12 +9,14 @@ const userSchema = new Schema({
     prenom : String ,
     email: { type: String, unique: true, lowercase: true },
     password: String,
-    numtel: String,
-    adress : {
-        street : String ,
-        city : String ,
-        zip : String
-    } 
+    adress: {
+        street: String,
+        city: String,
+        zip: String
+    },
+    numtel :String,
+    man: { type: Boolean ,default :true }, 
+    photo : String
 }, { timestamps: true });
 
 

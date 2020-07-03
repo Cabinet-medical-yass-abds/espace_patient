@@ -9,7 +9,7 @@ const claimSchema = new Schema({
     },
     objectif : String ,
     description : String,
-    answer: String
+    answer :{type :String , default :""}
 }, { timestamps: true });
 
 

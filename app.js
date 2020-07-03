@@ -12,6 +12,7 @@ const flash = require('connect-flash');
 const { allowInsecurePrototypeAccess } = require('@handlebars/allow-prototype-access');
 var geoip = require('geoip-lite');
 const publicIp = require('public-ip');
+const multer =require('multer');
 
 const app = express()
 
@@ -78,16 +79,8 @@ app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash());
 
-//get models schema
-const doctor = require('./models/doctor');
-const secrt = require('./models/secretere');
-const appoi = require('./models/appointement');
-const file = require('./models/files');
-const mfiles = require('./models/medical_files');
-const role = require('./models/role');
-const consultation = require('./models/consultation');
-const patient = require('./models/user');
-const { request } = require('http');
+
+
 
 
 
@@ -109,16 +102,21 @@ app.use('/', require('./routes/pages'))
     // -----------------------------------------------------
 
 //main route 
+//get models schema
+const doctor = require('./models/doctor');
+const user = require('./models/user');
+
 app.get('/', function(req, res) {
     (async() => {
         let ipadd = await publicIp.v4();
         const geo = geoip.lookup(ipadd);
         const errors = req.flash() || [];
         doctor.find({}, (err, docs) => {
-            if (err) { console.log(err) } else {
+            if (err) { console.log(err) } 
+            else {
                 res.render('home', { succes : errors.succes ,geo, docs, errors : errors.error, user: req.user });
             }
-        })
+        }).populate('id_user')
     })();
 });
 
@@ -148,6 +146,8 @@ app.post('/', (req, res) => {
 })
 
 
-app.listen(3000, function() {
-    console.log('Example app listening on port 3000!')
+
+
+app.listen(4000, function() {
+    console.log('Example app listening on port 4000!')
 })

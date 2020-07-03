@@ -6,13 +6,13 @@
       <a class="nav-link" href="/">Acceuil <span class="sr-only">(current)</span></a>
     </li>
     <li class="nav-item ">
-      <a class="nav-link" href="/mesRV">Mes rendez vous</a>
+      <a class="nav-link" href="/mesRV/{{user.id}}">Mes rendez vous</a>
     </li>
     <li class="nav-item ">
-      <a class="nav-link" href="/dossier">Mes dossiers</a>
+      <a class="nav-link" href="/mesREC/{{user.id}}">Mes réclamations</a>
     </li>
     <li class="nav-item ">
-      <a class="nav-link" href="/mesREC">Mes réclamations</a>
+      <a class="nav-link" href="/dossier/{{user.id}}">Consultations et Dossiers medicales</a>
     </li>
   </ul>
   {{else}}
@@ -24,13 +24,14 @@
   {{/if}}
   <form class="form-inline">
     {{#if user}}
-    <div class="dropdown">
+    <a type="button" href="/listmsg/{{user.id}}" class="btn btn-outline-info"><i class="fa fa-envelope"></i></a>
+    <div class="dropdown ml-3">
       <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
         aria-haspopup="true" aria-expanded="false">
         <i class="fa fa-user-circle"> : </i> {{user.prenom}} {{user.nom}}
       </button>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <div style="text-align: center;"><img style="border-radius : 50%;width:50px;" src="/assets/profile.png" alt="">
+        <div style="text-align: center;"><img style="border-radius : 50%;width:50px;" src="/uploads/{{user.photo}}" alt="">
         </div>
         <div class="dropdown-divider"></div>
         <a class="dropdown-item" type="button" data-toggle="modal" data-target="#exampleModal4"><i class="fa fa-cog"></i>  Profile</a>
@@ -101,7 +102,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form method="POST" action="/auth/signup">
+        <form method="POST" action="/auth/signup"  {{!-- enctype="multipart/form-data" --}} >
           <div class="form-group">
             <label for="formGroupExampleInput1">Nom </label>
             <input type="text" class="form-control" id="formGroupExampleInput1" placeholder="" name="nom">
@@ -123,7 +124,34 @@
             <label for="exampleInputPassword2">Confirmation mot de passe</label>
             <input type="password" class="form-control" id="exampleInputPassword2" name="cpass">
           </div>
-      </div>
+          <hr>
+        <div class="form-group mt-3">
+            <label for="inputAddress2">Rue</label>
+            <input type="text" class="form-control" id="inputAddress2" placeholder="" name="street">
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-8">
+              <label for="inputCity">Gouvernorat</label>
+              <input type="text" class="form-control" id="inputCity"  name="city" >
+            </div>
+            <div class="col-1"></div>
+            <div class="form-group col-md-3">
+              <label for="inputZip">Code postal</label>
+              <input type="text" class="form-control" id="inputZip"  name="zip">
+            </div>
+          </div>
+          <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Téléphone</span>
+          </div>
+          <input type="text" class="form-control" placeholder="+216 .. " aria-label="Username" aria-describedby="basic-addon1" name="numtel"> 
+        </div>
+        <hr>
+            <div class="form-group">
+            <label for="exampleFormControlFile1">Photo de profile</label>
+            <input type="file" name="myfile" class="form-control-file" id="exampleFormControlFile1">
+          </div>
+        </div>
       <div class="modal-footer">
         <button type="submit" class="btn btn-primary">Créez votre compte</button>
       </div>
@@ -178,15 +206,45 @@
         </button>
       </div>
       <div class="modal-body">
-        <form>
-        <div class="form-row">
+        <form method="POST" action="/updateUser/{{user.id}}" enctype="multipart/form-data">
+        <div class="form-row mb-3">
           <div class="col">
-            <input type="text" class="form-control" placeholder="" value="{{user.nom}}">
+            <label for="">Prénom</label>
+            <input type="text" class="form-control" placeholder="" value="{{user.prenom}}" name="prenom">
           </div>
           <div class="col">
-            <input type="text" class="form-control" placeholder="" value="{{user.prenom}}">
+            <label for="">Nom</label>
+            <input type="text" class="form-control" placeholder="" value="{{user.nom}}" name="nom">
           </div>
         </div>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Téléphone</span>
+          </div>
+          <input type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1" value="{{user.numtel}}" name="numtel"> 
+        </div>
+        <div class="form-group mt-3">
+          <hr>
+            <label for="inputAddress2">Rue</label>
+            <input type="text" class="form-control" id="inputAddress2" placeholder="" value="{{user.adress.street}}" name="street">
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-8">
+              <label for="inputCity">Gouvernorat</label>
+              <input type="text" class="form-control" id="inputCity" value="{{user.adress.city}}" name="city" >
+            </div>
+            <div class="col-1"></div>
+            <div class="form-group col-md-3">
+              <label for="inputZip">Code postal</label>
+              <input type="text" class="form-control" id="inputZip" value="{{user.adress.zip}}" name="zip">
+            </div>
+          </div>
+          <hr>
+          <div class="form-group">
+            <label for="exampleFormControlFile1">Example file input</label>
+            <input type="file" name="myfile" class="form-control-file" id="exampleFormControlFile1">
+          </div>
+        <button type="submit" class="btn btn-secondary pull-right mt-3">Modifier</button>
       </form>
       </div>
     </div>

@@ -10,10 +10,11 @@ const appoiSchema = new Schema({
     id_doctor : {
         type: Schema.Types.ObjectId, ref: 'doctor'
     },
-    date : {type : Date , default: Date.now},
+    date : {type : String , default: Date.now().toString()},
+    prix : { type : Number , default : 00},
     cancel : { type : Boolean , default : false},
-    statue : { type : Boolean , default : false}
-    
+    statue : { type : Boolean , default : false},
+    payed : { type : Boolean , default : false}
 }, { timestamps: true });
 
 

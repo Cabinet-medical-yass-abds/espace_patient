@@ -3,21 +3,21 @@ const Schema = mongoose.Schema;
 
 
 
-const consSchema = new Schema({
-    id_appointment : {
-        type: Schema.Types.ObjectId, ref: 'appoi'
-    },
+const messageSchema = new Schema({
     id_patient : {
         type: Schema.Types.ObjectId, ref: 'User'
     },
     id_doctor : {
         type: Schema.Types.ObjectId, ref: 'doctor'
     },
-    files : [
-        {file : String}
+    sujet : String,
+    conversation : [
+        {msg : String , date : {type : Date , default : Date.now},fromPatient :Boolean}
     ]
+    
 }, { timestamps: true });
 
 
 
-module.exports = mongoose.model('consultation', consSchema);
+module.exports = mongoose.model('messages', messageSchema);
+
