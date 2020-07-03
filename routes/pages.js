@@ -213,4 +213,15 @@ router.get('/listmsg/:id',(req,res)=>{
         res.render('messages.hbs',{data , notfound})
     }).populate('id_doctor')
 })
+
+
+////////////////////////////////////////////////Facture
+router.get('/print/:id',(req,res)=>{
+    consultation.findById({_id : req.params.id},(err,data)=>{
+        console.log(data)
+        res.render('infoFacture.hbs',{data})
+    }).populate('id_appointment').populate('id_patient').populate('id_doctor')
+})
+
+
 module.exports = router;
