@@ -8,6 +8,7 @@ const message = require('../models/message');
 const multer  = require('multer')
 const upload = require('../config/multer_cofig');
 const consultation = require('../models/consultation');
+const { exists } = require('../models/user');
 
 //details docteur
 router.get('/detail/:id',(req,res)=>{
@@ -150,7 +151,25 @@ router.get('/dossier/:id',(req,res)=>{
 
 //UPDATE USER INFOS
 router.post('/updateUser/:id',upload.single('myfile'),(req,res)=>{
-	User.findByIdAndUpdate({_id : req.params.id},{
+  let picture = req.file;
+  async function pic() {
+    let promise = new Promise((resolve, reject) => {
+      if (picture == undefined) {
+      User.findById ({_id : req.params.id},(err,data)=>{
+        if (data.photo) {
+          resolve (data.photo);
+        }else{
+          resolve(null);
+        }
+      });
+      }else{
+        resolve (req.file.filename);
+      }
+  });
+    return await promise;
+  }
+  pic().then((mypic) => {
+    User.findByIdAndUpdate({_id : req.params.id},{
 		nom  :req.body.nom,
 		prenom : req.body.prenom,
 		numtel : req.body.numtel,
@@ -159,14 +178,15 @@ router.post('/updateUser/:id',upload.single('myfile'),(req,res)=>{
 			city : req.body.city ,
 			zip : req.body.zip
         },
-        photo : req.file.filename
-	},(err,data)=>{
-		if(err){console.log(err)}
-		else{
-			req.flash('succes','Informations modifiées aves succés')
-			res.redirect('/acceuil')
-		}
-	})
+        photo : mypic
+	  },(err,data)=>{
+      if(err){console.log(err)}
+      else{
+        req.flash('succes','Informations modifiées aves succés')
+        res.redirect('/acceuil')
+      }
+	  })
+  })
 })
 
 
