@@ -35,11 +35,11 @@
                     <div class="col-5">
                         {{#if this.fromPatient}}
                         <div class="alert alert-info pull-right" role="alert">
-                            {{this.msg}}
+                            <b>vous:</b> {{this.msg}}
                         </div>
                         {{else}}
                         <div class="alert alert-success pull-left" role="alert">
-                            Doctor : {{this.msg}}
+                            <b>{{../this.id_doctor.nom}}:</b>  {{this.msg}}
                         </div>
                         {{/if}}
                     </div>
