@@ -13,6 +13,7 @@ const consSchema = new Schema({
     id_doctor : {
         type: Schema.Types.ObjectId, ref: 'doctor'
     },
+    archived: { type: Boolean ,default :false }, 
     files : [
         {file : String}
     ]
