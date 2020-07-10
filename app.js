@@ -115,7 +115,7 @@ app.get('/acceuil', function(req, res) {
         let ipadd = await publicIp.v4();
         const geo = geoip.lookup(ipadd);
         const errors = req.flash() || [];
-        doctor.find({}, (err, docs) => {
+        doctor.find({accepted: true}, (err, docs) => {
             if (err) { console.log(err) } 
             else {
                 res.render('home', { succes : errors.succes ,geo, docs, errors : errors.error, user: req.user });
@@ -132,7 +132,7 @@ app.post('/acceuil', (req, res) => {
         const errors = req.flash()|| [];
         if (req.body.speciality == '0') {
             var colName = req.body.doctorname;
-            doctor.find({ nom: { $regex: '.*' + colName + '.*' } }, (err, docs) => {
+            doctor.find({ nom: { $regex: '.*' + colName + '.*' },accepted: true }, (err, docs) => {
                 if (err) {} else { 
                     res.render('home', {succes : errors.succes, geo, docs, errors : errors.error, user: req.user });
                 }
