@@ -66,10 +66,11 @@ router.post('/makeconsultation/:id',(req,res)=>{
 //rendez vous 
 router.post('/rendezVous/:id',(req,res)=>{
     Appoi.findOne({id_patient : req.user.id , id_doctor : req.params.id ,statue : false},(err,data)=>{
-       
+       console.log(req.body)
        var appoi = new Appoi({
            id_patient : req.user.id ,
            id_doctor : req.params.id,
+           date : req.body.date
        })
       
        if (data != null){
