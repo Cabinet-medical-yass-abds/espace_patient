@@ -88,7 +88,19 @@ router.post('/rendezVous/:id',(req,res)=>{
        }
    })  
 })
-
+//reposter rv
+router.post('/reposterrv/:id',(req,res)=>{
+    Appoi.findOneAndUpdate({id_patient : req.user.id , id_doctor : req.params.id ,statue : false},{
+        date : req.body.date,
+        cancel : false 
+    },(err,data)=>{
+        if(err){ console.log(err) }
+        else{
+            req.flash('succes','Date modifiée')
+            res.redirect('back')
+        }
+    })
+})
 
 //////////////////////////////////////////////////////////////////////Reclamation
 //post reclamation

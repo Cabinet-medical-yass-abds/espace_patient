@@ -7,6 +7,7 @@
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
         <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Rendez-vous traités</a>
         <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Rendez-vous en attente</a>
+        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-cancel" role="tab" aria-controls="nav-cancel" aria-selected="false">Rendez-vous annulés</a>
   </div>
     </div>
     </nav>
@@ -21,6 +22,7 @@
                 <div class="row row-cols-3">
                     {{#each rv}}
                         {{#if this.statue}}
+                        {{#unless this.cancel}}
                             <div class="col">
                                 <div class="card" style="width: 18rem;">
                                 {{#if this.id_doctor.man}}
@@ -47,6 +49,7 @@
                                 </div>
                                 </div>
                             </div>
+                         {{/unless}}
                         {{/if}}
                     {{/each}}
                 </div>
@@ -63,6 +66,7 @@
                 <div class="row row-cols-3">
                     {{#each rv}}
                         {{#unless this.statue}}
+                        {{#unless this.cancel}}
                             <div class="col">
                                 <div class="card" style="width: 18rem;">
                                 {{#if this.id_doctor.man}}
@@ -83,9 +87,40 @@
                                 </div>
                             </div>
                         {{/unless}}
+                        {{/unless}}
                     {{/each}}
                 </div>
             {{/if}}
+        </div>
+    </div>
+    <div class="tab-pane fade" id="nav-cancel" role="tabpanel" aria-labelledby="nav-cancel-tab">
+        <div class="container mt-3">
+            <div class="alert alert-danger" role="alert">
+                    <strong>Essayer de changer la date </strong>
+            </div>
+            <div class="row row-cols-3">
+                {{#each rv}}
+                    {{#if this.cancel}}
+                        <div class="col">
+                            <div class="card" style="width: 18rem;">
+                            {{#if this.id_doctor.man}}
+                                <img src="/assets/doc2.jpg"  style="width: 200px;" class="card-img" alt="...">
+                            {{else}}
+                                <img src="/assets/doc1.jpg"  style="width: 200px;" class="card-img " alt="...">
+                            {{/if}}
+                            <div class="card-body">
+                                <h5 class="card-title">Dr : {{this.id_doctor.nom}} {{this.id_doctor.prenom}}</h5>
+                                <p class="card-text">La secrétaire est en cours de traiter votre rendez vous</p>
+                                <hr>
+                                <div class="row justify-content-center">
+                                    <button type="button"  class="btn btn-outline-success open-rv1" data-id="{{this.id_doctor.id}}"  data-toggle="modal" data-target="#datepicker">Reposter un rendez-vous</button>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    {{/if}}
+                {{/each}}
+            </div>
         </div>
     </div>
     </div>
@@ -157,7 +192,40 @@
     </div>
   </div>
 </div>
+<!-- datepicker -->
+<div class="modal fade" id="datepicker" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Choisir une date</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <small class="text-info">*La sécretaire est responsable de valider la disponibilité dans cette date</small>
+        <form id="dateform" method="post">
+          <div class="input-group mb-3 mt-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon1"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+            </div>
+            <input type="datetime-local" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1" name="date">
+          </div>
+          <hr>
+          <button class="btn btn-success mt-3 btn-block">Passez un rendez vous</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
+
+<script>
+    $(document).on("click", ".open-rv1", function () {
+      var id = $(this).data('id');
+      $('#dateform').attr('action','/reposterrv/'+id); 
+    });
+</script>
 
 <script type="">
     $(document).on("click", ".open-rv", function () {
