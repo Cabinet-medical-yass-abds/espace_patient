@@ -9,7 +9,7 @@
       <a class="nav-link" href="/acceuil">Chercher docteurs<span class="sr-only">(current)</span></a>
     </li>
     <li class="nav-item ">
-      <a class="nav-link" href="/mesRV/{{user.id}}">Mes rendez vous</a>
+      <a class="nav-link" href="/mesRV/{{user.id}}">Mes rendez </a>
     </li>
     <li class="nav-item ">
       <a class="nav-link" href="/mesREC/{{user.id}}">Mes réclamations</a>
@@ -251,6 +251,21 @@
           </div>
         <button type="submit" class="btn btn-secondary pull-right mt-3">Modifier</button>
       </form>
+      </div>
+      <div class="modal-footer">
+        <button  type="button" class="btn btn-outline-danger btn-block"  data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Supprimer mon compte<i class="fa fa-trash ml-3" aria-hidden="true"></i></button >
+        <div class="collapse" style="width: 100%;" id="collapseExample">
+          <div class="card card-body">
+            <h3>
+              Voulez vous vraiment supprimer votre compte ??
+            </h3>
+            <hr>
+            <div class="row">
+            <div class="col-6"> <button class="col btn btn-block btn-secondary" data-dismiss="modal">Annuler</button></div>
+            <div class="col-6"> <a type="button" href="/deleteUser" class="col btn btn-block btn-danger">Supprimer</a></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

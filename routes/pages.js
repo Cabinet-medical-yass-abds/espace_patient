@@ -9,6 +9,8 @@ const multer  = require('multer')
 const upload = require('../config/multer_cofig');
 const consultation = require('../models/consultation');
 const { exists } = require('../models/user');
+const user = require('../models/user');
+const claim = require('../models/claim');
 
 //details docteur
 router.get('/detail/:id',(req,res)=>{
@@ -257,4 +259,16 @@ router.get('/print/:id',(req,res)=>{
 })
 
 
+////////////////////////////////////////////Delete user
+router.get('/deleteUser',async (req,res)=>{
+    try{
+        await user.findByIdAndDelete({_id : req.user.id})
+        await message.findOneAndDelete({ id_patient : req.user.id})
+        await claim.deleteMany({ id_patient : req.user.id})
+        await Appoi.deleteMany({ id_patient : req.user.id})
+        res.redirect('acceuil')
+    }catch(ex){
+        console.log('error',ex)
+    }
+})
 module.exports = router;
