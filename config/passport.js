@@ -5,7 +5,7 @@ var FacebookStrategy = require('passport-facebook').Strategy;
 const User = require('../models/user');
 var multer  = require('multer')
 const upload = require('../config/multer_cofig')
-
+const notif = require('../models/notif')
 
 
 
@@ -92,6 +92,13 @@ module.exports = function(passport) {
                     return done(err, false)
                 }
                 // Success. Pass back savedUser
+                var n = new notif ({
+                    id_user : null,
+                    admin  :true ,
+                    body : "Un nouvau patient : "+savedUser.nom+" "+savedUser.prenom+" est inscrit",
+                    url : "http://localhost:4200/admin/patients"
+                  })
+                n.save((err)=>{})
                 return done(null, savedUser);
             })
         }).catch(function(err) {done(err, false)});

@@ -11,6 +11,7 @@ const consultation = require('../models/consultation');
 const { exists } = require('../models/user');
 const user = require('../models/user');
 const claim = require('../models/claim');
+const notif =require('../models/notif')
 
 //details docteur
 router.get('/detail/:id',(req,res)=>{
@@ -60,6 +61,13 @@ router.post('/makeconsultation/:id',(req,res)=>{
                 id_doctor : data.id_doctor,
                 files : []
             }).save((err)=>{})
+            var n = new notif ({
+                id_user : data.id_doctor,
+                doctor  :true ,
+                body : "Vous avez une nouvelle consultation",
+                url : "http://localhost:4200/doctor/consultations"
+              })
+            n.save((err)=>{})
         }
         res.redirect('/acceuil')
     })
@@ -68,7 +76,6 @@ router.post('/makeconsultation/:id',(req,res)=>{
 //rendez vous 
 router.post('/rendezVous/:id',(req,res)=>{
     Appoi.findOne({id_patient : req.user.id , id_doctor : req.params.id ,statue : false},(err,data)=>{
-       console.log(req.body)
        var appoi = new Appoi({
            id_patient : req.user.id ,
            id_doctor : req.params.id,
@@ -79,16 +86,37 @@ router.post('/rendezVous/:id',(req,res)=>{
            req.flash('error','rendez vous déja approuvé')
            res.redirect('/acceuil')
        }else{
-           appoi.save((err)=>{
+           appoi.save((err,results)=>{
                if(err){
                    console.log(err)
                }else{
-                   req.flash('succes','Demande de rendez vous envoyée  voir Mes rendez-vous')
-                   res.redirect('/acceuil')
+                doctor.findById({_id : req.params.id},(err , doc)=>{
+                    if(err){console.log(err)}
+                    else {
+                        //secret notif
+                        var n1 = new notif ({
+                            id_user : doc.id_secrt,
+                            secretary  :true ,
+                            body : "Un nouvau rendez vous a traiter",
+                            url : "http://localhost:4200/secretary/Rendezvous"
+                          })
+                        n1.save((err)=>{})
+                        //admin notif
+                        var n = new notif ({
+                            id_user : null,
+                            admin  :true ,
+                            body : "Un nouvau rendez vous pour Dr : "+doc.nom+" "+doc.prenom,
+                            url : "http://localhost:4200/admin/doctors"
+                          })
+                        n.save((err)=>{})
+                    }
+                })
+                req.flash('succes','Demande de rendez vous envoyée  voir Mes rendez-vous')
+                res.redirect('/acceuil')
                }
            })
        }
-   })  
+   })
 })
 //reposter rv
 router.post('/reposterrv/:id',(req,res)=>{
@@ -116,6 +144,13 @@ router.post('/postClaim/:id',(req,res)=>{
         if(err){
             console.log(err)
         }else{
+            var n = new notif ({
+                id_user : null,
+                admin  :true ,
+                body : "Une nouvelle réclamation recu ",
+                url : "http://localhost:4200/admin/claims"
+              })
+            n.save((err)=>{})
             req.flash('succes','Réclamation envoyée avec succée ')
             res.redirect('/acceuil')
         }
@@ -232,6 +267,13 @@ router.post('/sendmsg/:id',(req,res)=>{
                     }}
                 },(err,result)=>{})
             }
+            var n = new notif ({
+                id_user : req.body.id_doctor,
+                doctor  :true ,
+                body : "Vous avez un nouvau message",
+                url : "http://localhost:4200/doctor/messages"
+              })
+            n.save((err)=>{})
         }
         // go to messages
         res.redirect('back')
