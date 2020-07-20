@@ -189,7 +189,11 @@ router.get('/dossier/:id',(req,res)=>{
         if(err){
             console.log(err)
         }else{
-            res.render('mes_dossiers.hbs',{data})
+            var notexist = false
+            if(data.length == 0 ){
+                notexist = true
+            }
+            res.render('mes_dossiers.hbs',{data , notexist})
         }
     }).populate('id_appointment').populate('id_doctor')
 })

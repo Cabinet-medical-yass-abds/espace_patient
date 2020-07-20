@@ -6,6 +6,11 @@
         <small>** le docteur est le responsable de vous repondre .</small>
     </div>
     <hr>
+    {{#if notexist}}
+        <div class="alert alert-danger" role="alert">
+            <strong>Pas de consultations pour vous en ce moment !! </strong>
+        </div>
+    {{else}}
     <table class="table table-hover">
     <thead class="thead-dark">
         <tr>
@@ -34,4 +39,5 @@
         {{/each}}
     </tbody>
     </table>
+    {{/if}}
 </div>
