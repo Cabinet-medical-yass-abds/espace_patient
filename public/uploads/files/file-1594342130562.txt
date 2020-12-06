@@ -1,0 +1,152 @@
+#### Angular CRUD ####
+
+ // at service.ts on init these :: and import HttpClient (constructor)
+
+baseurl = "http://127.0.0.1:8000";
+httpHeaders = new HttpHeaders({'Content-Type':'application/json'});
+
+
+ // at component.ts >> constructor(){
+
+   this.getMovies();
+   this.selectedMovie = { id :-1, title :'',desc:'',year:0};
+}
+
+                            I/ Get : All (filter or set)
+                         ---------------------------------- 
+
+
+_app_.service.ts
+****************
+
+  getAllMovies(): Observable<any>{
+    return this.http.get(this.baseurl + '/movies/', 
+    {headers : this.httpHeaders});
+  }
+
+_app_component.ts
+*****************
+   getMovies = () => {
+    this.api.getAllMovies().subscribe(
+      data =>{
+        this.movies = data;
+      },
+      error => {
+        console.log('error refresh plz ');
+      }
+    );
+  }
+
+
+                             I/ Get : One (Detail)
+                           ------------------------ 
+
+
+_app_.service.ts
+****************
+
+  getOneMovies(id): Observable<any>{
+    return this.http.get(this.baseurl + '/movies/' + id + '/', 
+    {headers : this.httpHeaders});
+  }
+
+_app_component.ts
+*****************
+   OnemovieDetail = (movie) => {
+    this.api.getOneMovies(movie.id).subscribe(
+      data =>{
+        this.selectedMovie = data;
+      },
+      error => {
+        console.log('error refresh plz ');
+      }
+    );
+  }
+
+
+                            II/ PUT : One (update)
+                           ------------------------ 
+
+_app_.service.ts
+****************
+
+  updateMovies(movie): Observable<any>{
+    const body = {title :movie.title,desc:movie.desc,year : movie.year};
+    return this.http.put(this.baseurl + '/movies/' + movie.id + '/',
+    body , {headers : this.httpHeaders});
+  }
+
+
+_app_component.ts
+*****************
+  updateMovie = () => {
+    this.api.updateMovies(this.selectedMovie).subscribe(
+      data =>{
+        this.getMovies();
+      },
+      error => {
+        console.log('error refresh plz ');
+      }
+    );
+
+  }
+
+
+                          III/ POST : One (create new)
+                         ------------------------------
+_app_.service.ts
+****************
+
+  createMovies(movie): Observable<any>{
+    const body = {title :movie.title,desc:movie.desc,year : movie.year};
+    return this.http.post(this.baseurl + '/movies/',
+    body , {headers : this.httpHeaders});
+  }
+
+
+_app_component.ts
+*****************
+  createMovie = () => {
+    this.api.createMovies(this.selectedMovie).subscribe(
+      data =>{
+       this.movies.push(data);
+      },
+      error => {
+        console.log('error refresh plz ');
+      }
+    );
+
+  }
+
+
+
+                               IV/ DELETE
+                         -----------------------
+
+_app_.service.ts
+****************
+
+  deleteMovies(id): Observable<any>{
+    return this.http.delete(this.baseurl + '/movies/' + id +'/',
+   {headers : this.httpHeaders});
+  }
+
+
+_app_component.ts
+*****************
+  deleteMovie = () => {
+    this.api.deleteMovies(this.selectedMovie.id).subscribe(
+      data =>{
+        this.getMovies();
+      },
+      error => {
+        console.log('error refresh plz ');
+      }
+    );
+
+  }
+  }
+
+
+
+
