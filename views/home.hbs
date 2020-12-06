@@ -26,8 +26,9 @@
             <label for="">Ou bien chercher avec specialité </label>
             <select class="custom-select" name="speciality" id="">
               <option value="0" selected>selectionner spécialité</option>
-              <option value="dermatopathology">Dermatopathology</option>
-              <option value="opticien">Opticien</option>
+              {{#each docs}}
+                <option value="{{this.spec}}">{{this.spec}}</option>
+              {{/each}}
             </select>
           </div>
           <button type="submit" class="btn btn-dark pull-right  ml-5 mr-0">Recherche</button>
